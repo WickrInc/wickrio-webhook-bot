@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:v2.4"
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      # Set this to the email address you wish to use for certificate registration
+      - "--certificatesresolvers.letsencrypt.acme.email=postmaster@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  webhookbot:
+    image: "wickr/bot-cloud:5.68.14.03"
+    tty: true
+    stdin_open: true
+    labels:
+      - "traefik.enable=true"
+      # Set this to your domain name
+      - "traefik.http.routers.webhook.rule=Host(`webhook.example.com`)"
+      - "traefik.http.routers.webhook.entrypoints=websecure"
+      - "traefik.http.routers.webhook.tls.certresolver=letsencrypt"
+      - "traefik.http.services.webhookbot.loadbalancer.server.port=8080"
+    volumes:
+      - "./bot/:/opt/WickrIO/"
