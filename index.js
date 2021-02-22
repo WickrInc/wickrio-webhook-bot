@@ -25,6 +25,7 @@ async function main() {
             if (!vgroupid) throw new NotFoundError();
 
             bot.send(vgroupid, msg);
+            res.send("ok");
         } catch (e) {
             if (e instanceof HTTPError) {
                 res.status(e.status()).end(e);
