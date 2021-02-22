@@ -12,19 +12,25 @@ async function main() {
     if (!url) throw new Error('WEBHOOK_URL value must be set');
 
     let app = express();
+    app.disable('x-powered-by');
     app.use(express.json());
+    app.use(express.urlencoded());
 
     let bot = new WebhookBot(wickr, url);
 
     app.post('/send/:key', async (req, res) => {
         try {
-            let msg = req.body.text;
-            if (!msg) throw new BadRequestError('Missing text parameter');
+            let body = req.body;
+            if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
+                body = JSON.parse(req.body.payload);
+            }
+
+            if (!body.text) throw new BadRequestError('Missing text parameter');
 
             let vgroupid = bot.getVgroupForKey(req.params.key);
             if (!vgroupid) throw new NotFoundError();
 
-            bot.send(vgroupid, msg);
+            bot.send(vgroupid, body.text);
             res.send("ok");
         } catch (e) {
             if (e instanceof HTTPError) {
