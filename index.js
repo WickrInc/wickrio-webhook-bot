@@ -34,9 +34,9 @@ async function main() {
             res.send("ok");
         } catch (e) {
             if (e instanceof HTTPError) {
-                res.status(e.status()).end(e);
+                res.status(e.status()).end();
             } else {
-                res.status(500).end(e);
+                res.status(500).end();
             }
         }
     });
