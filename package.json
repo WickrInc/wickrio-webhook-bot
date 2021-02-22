@@ -18,7 +18,8 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "nyc": "^15.1.0",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "supertest": "^6.1.3"
   },
   "scripts": {
     "test": "nyc mocha test --exit"

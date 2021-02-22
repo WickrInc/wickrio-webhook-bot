@@ -11,6 +11,18 @@ See the WickrIO [Getting Started Guide](https://wickrinc.github.io/wickrio-docs/
 Webhook Bot understands the following commands:
 
  - `/help` - Prints a help message with all available commands
+ - `/create` - Output the webhook URL for the current room
+ - `/rekey` - Rotate the current webhook URL for the room
+
+### Sending a webhook message
+
+The API is almost identical to the [Slack Incoming Webhooks API](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
+
+``` bash
+curl https://hooks.example.com/send/$KEY -d 'payload={"text": "hello world"}'
+# or
+curl https://hooks.example.com/send/$KEY -H "Content-type: application/json" -d '{"text": "hello world"}'
+```
 
 ## Development
 
