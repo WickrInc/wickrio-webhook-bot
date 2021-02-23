@@ -89,7 +89,7 @@ describe('bot', function() {
             this.bot.receivers['fakekey'] = {vgroupid: 'Vfoo'};
             sinon.spy(this.bot, 'send');
 
-            this.bot.rekey({vgroupid: 'Vfoo'});
+            this.bot.rekey({vgroupid: 'Vfoo'}, []);
             let sendArgs = this.bot.send.getCall(0).args;
 
             expect(sendArgs[0]).to.equal('Vfoo');
