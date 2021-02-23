@@ -15,7 +15,7 @@ describe('bot', function() {
     });
 
     it('registers handlers', function() {
-        expect(Object.keys(this.bot.handlers)).to.eql(["help", "create", "rekey"]);
+        expect(Object.keys(this.bot.handlers)).to.eql(["help", "show", "rekey"]);
     });
 
     describe('#getURL', function() {
@@ -35,7 +35,7 @@ describe('bot', function() {
         });
 
         it('returns the correct key', function() {
-            this.bot.receivers = {'lolwut': 'Vfoo'};
+            this.bot.receivers = {lolwut: {vgroupid: 'Vfoo'}};
             expect(this.bot.getKeyForVgroup('Vfoo')).to.equal('lolwut');
         });
     });
@@ -45,25 +45,25 @@ describe('bot', function() {
             let key = this.bot._create('Vfoo');
             expect(key).to.not.be.null;
             expect(key).to.have.lengthOf(32);
-            expect(this.bot.receivers[key]).to.equal('Vfoo');
+            expect(this.bot.receivers[key].vgroupid).to.equal('Vfoo');
         });
     });
 
     describe('#_rekey', function() {
         it('generates a new key for a vgroup with an existing key', function() {
-            this.bot.receivers['oldkey'] = 'Vfoo';
+            this.bot.receivers['oldkey'] = {vgroupid: 'Vfoo'};
             let key = this.bot._rekey('oldkey', 'Vfoo');
 
             expect(key).to.not.be.null;
             expect(key).to.have.lengthOf(32);
-            expect(this.bot.receivers[key]).to.equal('Vfoo');
+            expect(this.bot.receivers[key].vgroupid).to.equal('Vfoo');
             expect(this.bot.receivers['oldkey']).to.be.undefined;
         });
     });
 
     describe('#getVgroupForKey', function() {
         it('finds the vgroup for the provided webhook key', function() {
-            this.bot.receivers['foo'] = 'Vfoo';
+            this.bot.receivers['foo'] = {vgroupid: 'Vfoo'};
             expect(this.bot.getVgroupForKey('foo')).to.equal('Vfoo');
         });
 
@@ -86,7 +86,7 @@ describe('bot', function() {
         });
 
         it('sends a warning message first', function() {
-            this.bot.receivers['fakekey'] = 'Vfoo';
+            this.bot.receivers['fakekey'] = {vgroupid: 'Vfoo'};
             sinon.spy(this.bot, 'send');
 
             this.bot.rekey({vgroupid: 'Vfoo'});
@@ -98,7 +98,7 @@ describe('bot', function() {
         });
 
         it('updates an existing key', function() {
-            this.bot.receivers['fakekey'] = 'Vfoo';
+            this.bot.receivers['fakekey'] = {vgroupid: 'Vfoo'};
             sinon.spy(this.bot, 'send');
 
             let result = this.bot.rekey({vgroupid: 'Vfoo'}, ['fakekey']);
@@ -108,19 +108,19 @@ describe('bot', function() {
             expect(sendArgs[1]).to.match(/The new webhook receiver for this room is/);
             expect(this.bot.send.calledOnce).to.be.true;
 
-            expect(this.bot.receivers['fakekey']).to.be.undefined;
-            expect(this.bot.receivers[result]).to.equal('Vfoo');
+            expect(this.bot.receivers.fakekey).to.be.undefined;
+            expect(this.bot.receivers[result].vgroupid).to.equal('Vfoo');
         });
 
         it('does not update a key if room to rekey is not the current room', function() {
-            this.bot.receivers = { fakekey: 'Vbar', fakekey2: 'Vfoo' };
+            this.bot.receivers = { fakekey: {vgroupid: 'Vbar'}, fakekey2: {vgroupid: 'Vfoo'} };
             sinon.spy(this.bot, 'send');
 
             let result = this.bot.rekey({vgroupid: 'Vfoo'}, ['fakekey']);
             let sendArgs = this.bot.send.getCall(0).args;
 
             expect(result).to.be.undefined;
-            expect(this.bot.receivers['fakekey']).to.equal('Vbar');
+            expect(this.bot.receivers.fakekey.vgroupid).to.equal('Vbar');
 
             expect(sendArgs[0]).to.equal('Vfoo');
             expect(sendArgs[1]).to.match(/Error: invalid webhook key/);

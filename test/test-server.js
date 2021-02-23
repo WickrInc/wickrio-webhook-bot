@@ -9,7 +9,7 @@ const WebhookBot = require('../lib/bot');
 describe('server', function() {
     beforeEach(function() {
         this.bot = new WebhookBot(new FakeWickr(), "https://example.com");
-        this.bot.receivers = {fakekey123: 'fakevgroup123'};
+        this.bot.receivers = {fakekey123: {vgroupid: 'fakevgroup123'}};
         this.app = Server(this.bot);
     });
 

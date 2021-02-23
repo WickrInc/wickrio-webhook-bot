@@ -11,7 +11,7 @@ See the WickrIO [Getting Started Guide](https://wickrinc.github.io/wickrio-docs/
 Webhook Bot understands the following commands:
 
  - `/help` - Prints a help message with all available commands
- - `/create` - Output the webhook URL for the current room
+ - `/show` - Show the webhook URL for the current room
  - `/rekey` - Rotate the current webhook URL for the room
 
 ### Sending a webhook message

@@ -1,4 +1,5 @@
 *.swp
+TODO
 node_modules/
 data/
 *.tar.gz
