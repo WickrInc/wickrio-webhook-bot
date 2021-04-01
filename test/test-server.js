@@ -50,6 +50,23 @@ describe('server', function() {
                 });
         });
 
+        it('responds with a 200 to JSON requests sent as text/plain', function(done) {
+            sinon.spy(this.bot, 'send');
+            request(this.app)
+                .post('/send/fakekey123')
+                .send('{"text": "hello world"}')
+                .set('Content-Type', 'text/plain')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).to.equal('ok');
+                    expect(this.bot.send.calledWith(
+                        'fakevgroup123', 'hello world'
+                    )).to.be.true;
+                    return done();
+                });
+        });
+
         it('responds with a 200 to form data requests', function(done) {
             sinon.spy(this.bot, 'send');
             request(this.app)
