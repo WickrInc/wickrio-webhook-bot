@@ -13,8 +13,12 @@ describe('server', function() {
         this.app = Server(this.bot);
     });
 
-    it('instantiates without issue', function(done) {
+    it('responds with a 404 at /', function(done) {
         request(this.app).get('/').expect(404, done);
+    });
+
+    it('responds with a 200 at /healthz', function(done) {
+        request(this.app).get('/healthz').expect(200, done);
     });
 
     describe('/send', function() {
@@ -22,6 +26,14 @@ describe('server', function() {
             request(this.app)
                 .post('/send/foo')
                 .set('Content-Type', 'application/json')
+                .expect(400, done);
+        });
+
+        it('responds with a 400 when a text/plain request isnt JSON', function(done) {
+            request(this.app)
+                .post('/send/foo')
+                .send('ohai')
+                .set('Content-Type', 'text/plain')
                 .expect(400, done);
         });
 

@@ -11,6 +11,7 @@
     "base62-random": "^0.3.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "morgan": "^1.10.0",
     "wickrbot": "^0.1.1",
     "wickrio_addon": "^5.70.2"
   },
