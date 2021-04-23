@@ -24,6 +24,12 @@ curl https://hooks.example.com/send/$KEY -d 'payload={"text": "hello world"}'
 curl https://hooks.example.com/send/$KEY -H "Content-type: application/json" -d '{"text": "hello world"}'
 ```
 
+It also accepts webhooks in the [AWS Chime](https://github.com/awsdocs/amazon-chime-developer-guide/blob/master/doc_source/webhooks.md) format:
+
+``` bash
+curl https://hooks.example.com/send/$KEY -H "Content-type: application/json" -d '{"Content": "hello world"}'
+```
+
 ## Development
 
 ### Building

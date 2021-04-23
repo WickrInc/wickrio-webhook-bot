@@ -62,6 +62,40 @@ describe('server', function() {
                 });
         });
 
+        it('responds with a 200 to JSON requests in Chime format', function(done) {
+            sinon.spy(this.bot, 'send');
+            request(this.app)
+                .post('/send/fakekey123')
+                .send({Content: "hello world"})
+                .set('Content-Type', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).to.equal('ok');
+                    expect(this.bot.send.calledWith(
+                        'fakevgroup123', 'hello world'
+                    )).to.be.true;
+                    return done();
+                });
+        });
+
+        it('does not freak out when provided `text` and `Content` messages', function(done) {
+            sinon.spy(this.bot, 'send');
+            request(this.app)
+                .post('/send/fakekey123')
+                .send({Content: "hello Chime world", text: "hello Slack world"})
+                .set('Content-Type', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).to.equal('ok');
+                    expect(this.bot.send.calledWith(
+                        'fakevgroup123', 'hello Slack world'
+                    )).to.be.true;
+                    return done();
+                });
+        });
+
         it('responds with a 200 to JSON requests sent as text/plain', function(done) {
             sinon.spy(this.bot, 'send');
             request(this.app)
