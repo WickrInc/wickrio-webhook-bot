@@ -18,6 +18,20 @@ describe('bot', function() {
         expect(Object.keys(this.bot.handlers)).to.eql(["help", "show", "rekey"]);
     });
 
+    describe('#send', function() {
+        it('trims really long messages', function() {
+            const wickr = new FakeWickr();
+            const bot = new WebhookBot(wickr);
+            sinon.spy(wickr, 'cmdSendRoomMessage');
+
+            const tooLong = 'A'.repeat(11111);
+            const expected = 'A'.repeat(9997) + '...';
+
+            bot.send('Vfoo', tooLong);
+            expect(wickr.cmdSendRoomMessage.getCall(0).args[1]).to.equal(expected);
+        });
+    });
+
     describe('#getURL', function() {
         it('generates URLs correctly', function() {
             expect(this.bot.getURL('fakekey123')).to.equal("https://example.com/send/fakekey123");
