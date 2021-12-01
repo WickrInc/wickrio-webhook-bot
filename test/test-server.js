@@ -130,6 +130,40 @@ describe('server', function() {
                 });
         });
 
+        it('inlines text attachments', function(done) {
+            sinon.spy(this.bot, 'send');
+            request(this.app)
+                .post('/send/fakekey123')
+                .send('payload={"text":"hello world","attachments":[{"text":"zomg"},{"text":"wtf"},{"text":"bbq"}]}')
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).to.equal('ok');
+                    expect(this.bot.send.calledWith(
+                        'fakevgroup123', 'hello world\n\n-----\n\nzomg\n\n-----\n\nwtf\n\n-----\n\nbbq'
+                    )).to.be.true;
+                    return done();
+                });
+        });
+
+        it('handles malformed attachments', function(done) {
+            sinon.spy(this.bot, 'send');
+            request(this.app)
+                .post('/send/fakekey123')
+                .send({text: "hello world", attachments: true})
+                .set('Content-Type', 'application/json')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).to.equal('ok');
+                    expect(this.bot.send.calledWith(
+                        'fakevgroup123', 'hello world'
+                    )).to.be.true;
+                    return done();
+                });
+        });
+
         it('responds with a 400 to form data requests without payload value', function(done) {
             request(this.app)
                 .post('/send/fakekey123')
