@@ -28,15 +28,15 @@ fi
 # old location: '/opt/WickrIO/clients/bot/integration/wickrio-webhook-bot'
 # new location: '/opt/WickrIO/clients/bot/integration/wickrio-webhook-bot.new'
 #
-export OLD_BOT_LOCATION=$1
-export NEW_BOT_LOCATION=$2
-cd $OLD_BOT_LOCATION
+export OLD_BOT_LOCATION="$1"
+export NEW_BOT_LOCATION="$2"
+cd "$OLD_BOT_LOCATION"
 
 #
 # Copy the generated data files to the new software location
 #
 set +e
-cp -f .env $NEW_BOT_LOCATION
+cp -f .env "$NEW_BOT_LOCATION"
 set -e
 
 #
@@ -44,15 +44,15 @@ set -e
 # Remove a previous one if necessary
 #
 cd ..
-echo $PWD
+echo "$PWD"
 ls
 rm -rf webhook-bot.old_Version
-mv $OLD_BOT_LOCATION webhook-bot.old_Version
+mv "$OLD_BOT_LOCATION" webhook-bot.old_Version
 
 #
 # Move the NEW installation to the bot's integration directory
 #
-cd $NEW_BOT_LOCATION/..
-mv $NEW_BOT_LOCATION $OLD_BOT_LOCATION
+cd "$NEW_BOT_LOCATION/.."
+mv "$NEW_BOT_LOCATION" "$OLD_BOT_LOCATION"
 
 

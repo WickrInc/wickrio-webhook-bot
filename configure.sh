@@ -18,8 +18,7 @@ if [[ -z "$PORT" ]]; then
     PORT=$HTTP_PORT
 fi
 
-grep -q "HTTP_PORT" .env
-if [[ $? -eq 0 ]]; then
+if grep -q HTTP_PORT .env; then
     sed -i "/^HTTP_PORT=/c\HTTP_PORT=$PORT" .env
 else
     echo "HTTP_PORT=$PORT" >> .env
@@ -31,8 +30,7 @@ if [[ -z "$URL" ]]; then
     URL=$WEBHOOK_URL
 fi
 
-grep -q "WEBHOOK_URL" .env
-if [[ $? -eq 0 ]]; then
+if grep -q WEBHOOK_URL .env; then
     sed -i "/^WEBHOOK_URL=/c\WEBHOOK_URL=$URL" .env
 else
     echo "WEBHOOK_URL=$URL" >> .env
