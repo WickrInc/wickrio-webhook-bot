@@ -30,6 +30,12 @@ It also accepts webhooks in the [AWS Chime](https://github.com/awsdocs/amazon-ch
 curl https://hooks.example.com/send/$KEY -H "Content-type: application/json" -d '{"Content": "hello world"}'
 ```
 
+#### Simple Notification Service (SNS)
+
+The Webhook Bot also supports use as an HTTPS subscription endpoint for Amazon SNS. It will automatically confirm subscription to the topic, and send the message body of the SNS Notification into the Wickr room. 
+
+When configuring the subscription to your SNS topic, select the `HTTPS` protocol, enter in the HTTPS URL of the webhook receiver for your particular room, and ensure that raw message delivery is _not_ enabled on the subscription.
+
 ## Development
 
 ### Building

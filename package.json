@@ -12,6 +12,7 @@
     "dotenv": "^16.3.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
+    "sns-validator": "^0.3.5",
     "wickrbot": "^0.3.0",
     "wickrio_addon": "6.20.1"
   },
