@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   traefik:
-    image: "traefik:v2.4"
+    image: "traefik:v2.10.5"
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -21,7 +21,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   webhookbot:
-    image: "wickr/bot-cloud:5.68.14.03"
+    image: "public.ecr.aws/x3s2s6k3/wickrio/bot-cloud:6.18.19.02"
     tty: true
     stdin_open: true
     labels:
