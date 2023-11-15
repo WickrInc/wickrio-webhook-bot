@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "base62-random": "^0.3.5",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.3.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
-    "wickrbot": "^0.1.6",
-    "wickrio_addon": "^5.113.4"
+    "wickrbot": "^0.3.0",
+    "wickrio_addon": "6.20.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
