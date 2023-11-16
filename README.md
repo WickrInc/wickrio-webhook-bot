@@ -1,5 +1,7 @@
 # Wickr Webhook Bot
 
+![](./docs/diagram.png)
+
 This project is a WickrIO integration created via [cookiecutter-wickr-bot](https://github.com/WickrInc/cookiecutter-wickr-bot)
 
 ## Installation
