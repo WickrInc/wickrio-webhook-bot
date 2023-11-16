@@ -36,6 +36,14 @@ The Webhook Bot also supports use as an HTTPS subscription endpoint for Amazon S
 
 When configuring the subscription to your SNS topic, select the `HTTPS` protocol, enter in the HTTPS URL of the webhook receiver for your particular room, and ensure that raw message delivery is _not_ enabled on the subscription.
 
+## Configuration
+
+When installing this bot, there are two configuration values which will need to be set.
+
+The first is the HTTP port for the server to listen on, which defaults to `8080``. You generally won't need to change this value unless it conflicts with another listener in your bot container. When deploying the bot container, it is important that you expose this port so that it is accessible outside of the container.
+
+The second configuration is for the frontend URL for the webhook receiver. This is the URL which points to your webhook bot, and where you will send all webhooks in order to reach your Wickr rooms. This URL is used as the base URL for forming complete webhook URLs within each room. For example, if you set the frontend URL to `https://hooks.example.com/` the bot will generate webhook URLs for rooms which look like `https://hooks.example.com/send/BP6CwLpODqcDYtThoUyY0JWqMyYvTcLK`.
+
 ## Development
 
 ### Building
